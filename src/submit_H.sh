@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=LAMBDA_l_BLOCK_b_SIM_s
+#SBATCH --job-name=r_LAMBDA_l_BLOCK_b_SIM_s
 #SBATCH -p serial
 #SBATCH -n 1
 #SBATCH --mem-per-cpu=2G

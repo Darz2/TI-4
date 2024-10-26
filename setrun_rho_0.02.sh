@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folder="DIR_NAME"
+folder="Rho_0.02"
 src="src"
 block=5
 sim=2
@@ -28,7 +28,7 @@ do
 
             cp src/run                          ./
             sed -i "s/L_VAL/${L}/g"             run
-            sed -i "s/Box_VAL/B_VAL/g"          run
+            sed -i "s/Box_VAL/17.099759/g"          run
             sed -i "s/A_VAL/$Alpha/g"           run
             sed -i "s/R_VAL/$Rcut/g"            run
 
@@ -60,4 +60,4 @@ done
 
 
 wait
-./SUBMIT
+./setsubmit_rho_0.02.sh

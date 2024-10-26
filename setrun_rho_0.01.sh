@@ -1,10 +1,11 @@
 #!/bin/bash
 
-folder="DIR_NAME"
+folder="Rho_0.01"
 src="src"
 block=5
 sim=2
 lambda=($(seq 0.01 0.01 1.00))
+# lambda=(1.00)
 Alpha=1.0d0
 Rcut=2.0d0
 
@@ -28,16 +29,16 @@ do
 
             cp src/run                          ./
             sed -i "s/L_VAL/${L}/g"             run
-            sed -i "s/Box_VAL/B_VAL/g"          run
+            sed -i "s/Box_VAL/21.544347/g"          run
             sed -i "s/A_VAL/$Alpha/g"           run
             sed -i "s/R_VAL/$Rcut/g"            run
 
             if (( $(echo "${L} > 0.9" | bc -l) )); then
-                sed -i "s/D_VAL/0.4/g" run
+                sed -i "s/D_VAL/5/g" run
             elif (( $(echo "${L} > 0.7" | bc -l) )); then
-                sed -i "s/D_VAL/0.7/g" run
+                sed -i "s/D_VAL/7/g" run
             else
-                sed -i "s/D_VAL/1/g" run
+                sed -i "s/D_VAL/9/g" run
             fi
 
             mv run                              ${fold}
@@ -60,4 +61,4 @@ done
 
 
 wait
-./SUBMIT
+# ./setsubmit_rho_0.01.sh
