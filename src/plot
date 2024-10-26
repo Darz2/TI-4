@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd ../../../../src/PLOTS_SCRIPTS/
+
+python3 Etotal.py FOLD/Results
+python3 dudlambda.py FOLD/Results
+python3 virial.py FOLD/Results
+python3 radial.py FOLD/Radial
+
+wait
+
+if ls *.jpg 1> /dev/null 2>&1; then
+    code *.jpg
+else
+    echo "No .jpg files found in the current directory."
+fi
