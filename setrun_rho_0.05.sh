@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#SBATCH --job-name=setrun_rho_0.01
+#SBATCH -p serial
+#SBATCH -n 1
+#SBATCH --mem-per-cpu=2G
+#SBATCH -t 6-00:00:00
+
 folder="Rho_0.05"
 src="src"
 block=5
@@ -47,9 +53,10 @@ do
             mv plot                             ${fold}
 
             cp src/submit_H.sh                  ./
-            sed -i "2s/l/${L}/g"                 submit_H.sh
-            sed -i "2s/b/${i}/2"                 submit_H.sh
-            sed -i "2s/s/${j}/g"                 submit_H.sh
+            sed -i "2s/r/${folder}/g"           submit_H.sh
+            sed -i "2s/l/${L}/g"                submit_H.sh
+            sed -i "2s/b/${i}/2"                submit_H.sh
+            sed -i "2s/s/${j}/g"                submit_H.sh
             mv submit_H.sh                      ${fold}
 
             cp src/a.out                        ${fold}

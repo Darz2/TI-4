@@ -27,11 +27,34 @@ def sd(array):
     standard_deviation = math.sqrt(variance - squared_mean)
     return standard_deviation
 
-def excess_free_energy(rho, T, U, N, Q):
+def excess_free_energy(rho, T, U, N, Q, sigma_energy, sigma_q):
+    """
+    Calculate the per-particle free energy and its uncertainty.
+    
+    Parameters:
+    - rho : float : Density
+    - T : float : Temperature
+    - U : float : Internal energy
+    - N : float : Number of particles
+    - Q : float : The integration port in two-particles excess entropy calculations (which is a function of radial distribution function (g(r)))
+    - sigma_energy : float : Uncertainty in internal energy (U)
+    - sigma_q : float : Uncertainty in entropy term (Q)
+    
+    Returns:
+    - per_particle_free_energy (fa) : float : Free energy per particle
+    - sigma_per_particle (fac) : float : Uncertainty in free energy per particle
+    """
+    
     s_excess = -(2 * 3.14 * rho) * Q
+    sigma_s_excess = abs(2 * 3.14 * rho) * sigma_q
+    
     A = U - T * (N * s_excess)
+    sigma_A = np.sqrt(sigma_energy**2 + (T * N * sigma_s_excess)**2)
+                      
     per_particle_free_energy = A / N
-    return per_particle_free_energy
+    sigma_per_particle = sigma_A / N
+    
+    return per_particle_free_energy, sigma_per_particle
 
 bash_code = f'''
 DIR_NAME="EXCESS_ENTROPY"
@@ -124,12 +147,12 @@ for D, r in zip(dir_names,density):
     avgb_qgrc   = round(avg(qgrc_b),6)
     
     # sd_rho    = round(sd(rho_b),6)
-    sd_energy = round(sd(energy_b),6)
-    sd_qgr    = round(sd(qgr_b),6)
-    sd_qgrc   = round(sd(qgrc_b),6)
+    sd_energy   = round(sd(energy_b),6)
+    sd_qgr      = round(sd(qgr_b),6)
+    sd_qgrc     = round(sd(qgrc_b),6)
     
-    fa        = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgr)
-    fac       = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgrc)
+    fa, sd_fa   = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgr, sd_energy, sd_qgr)
+    fac, sd_fac = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgrc, sd_energy, sd_qgrc)
     
     print(f"Excess free enrgy without correction {avgb_rho} is the {fa}")
     print(f"Excess free enrgy with correction {avgb_rho} is the {fac}")
@@ -144,8 +167,8 @@ for D, r in zip(dir_names,density):
             
     if not os.path.isfile(file_sd):  
         with open(file_sd, "w") as file:  
-            file.write("rho energy qs qs_van_der_vegt\n")
-            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc}\n") 
+            file.write("rho energy qs qs_van_der_vegt free_energy free_energy_with_coreection\n")
+            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc} {sd_fa} {sd_fac}\n") 
     else:
         with open(file_sd, "a") as file:  
-            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc}\n")
+            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc} {sd_fa} {sd_fac}\n")

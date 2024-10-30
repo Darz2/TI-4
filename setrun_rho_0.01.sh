@@ -1,11 +1,16 @@
 #!/bin/bash
 
+#SBATCH --job-name=setrun_rho_0.01
+#SBATCH -p serial
+#SBATCH -n 1
+#SBATCH --mem-per-cpu=2G
+#SBATCH -t 6-00:00:00
+
 folder="Rho_0.01"
 src="src"
 block=5
 sim=2
 lambda=($(seq 0.01 0.01 1.00))
-# lambda=(1.00)
 Alpha=1.0d0
 Rcut=2.0d0
 
@@ -34,11 +39,11 @@ do
             sed -i "s/R_VAL/$Rcut/g"            run
 
             if (( $(echo "${L} > 0.9" | bc -l) )); then
-                sed -i "s/D_VAL/5/g" run
+                sed -i "s/D_VAL/10/g" run
             elif (( $(echo "${L} > 0.7" | bc -l) )); then
-                sed -i "s/D_VAL/7/g" run
+                sed -i "s/D_VAL/10/g" run
             else
-                sed -i "s/D_VAL/9/g" run
+                sed -i "s/D_VAL/10/g" run
             fi
 
             mv run                              ${fold}
@@ -48,9 +53,10 @@ do
             mv plot                             ${fold}
 
             cp src/submit_H.sh                  ./
-            sed -i "2s/l/${L}/g"                 submit_H.sh
-            sed -i "2s/b/${i}/2"                 submit_H.sh
-            sed -i "2s/s/${j}/g"                 submit_H.sh
+            sed -i "2s/r/${folder}/g"           submit_H.sh
+            sed -i "2s/l/${L}/g"                submit_H.sh
+            sed -i "2s/b/${i}/2"                submit_H.sh
+            sed -i "2s/s/${j}/g"                submit_H.sh
             mv submit_H.sh                      ${fold}
 
             cp src/a.out                        ${fold}
@@ -61,4 +67,4 @@ done
 
 
 wait
-# ./setsubmit_rho_0.01.sh
+./setsubmit_rho_0.01.sh

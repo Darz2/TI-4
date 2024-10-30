@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#SBATCH --job-name=setrun_rho_0.02
+#SBATCH -p serial
+#SBATCH -n 1
+#SBATCH --mem-per-cpu=2G
+#SBATCH -t 6-00:00:00
+
 folder="Rho_0.02"
 src="src"
 block=5
@@ -33,11 +39,11 @@ do
             sed -i "s/R_VAL/$Rcut/g"            run
 
             if (( $(echo "${L} > 0.9" | bc -l) )); then
-                sed -i "s/D_VAL/0.4/g" run
+                sed -i "s/D_VAL/8/g" run
             elif (( $(echo "${L} > 0.7" | bc -l) )); then
-                sed -i "s/D_VAL/0.7/g" run
+                sed -i "s/D_VAL/8/g" run
             else
-                sed -i "s/D_VAL/1/g" run
+                sed -i "s/D_VAL/8/g" run
             fi
 
             mv run                              ${fold}
@@ -47,9 +53,10 @@ do
             mv plot                             ${fold}
 
             cp src/submit_H.sh                  ./
-            sed -i "2s/l/${L}/g"                 submit_H.sh
-            sed -i "2s/b/${i}/2"                 submit_H.sh
-            sed -i "2s/s/${j}/g"                 submit_H.sh
+            sed -i "2s/r/${folder}/g"           submit_H.sh
+            sed -i "2s/l/${L}/g"                submit_H.sh
+            sed -i "2s/b/${i}/2"                submit_H.sh
+            sed -i "2s/s/${j}/g"                submit_H.sh
             mv submit_H.sh                      ${fold}
 
             cp src/a.out                        ${fold}
