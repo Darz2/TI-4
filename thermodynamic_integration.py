@@ -57,26 +57,23 @@ def calculate_excess_free_energy(dudl_data):
     area_trapezoid = trapezoid(du_dlambda_fine, lambda_fine)
     return area_trapezoid/N
 
-file_path     = "TP_0.05/TP_B2.dat"
-dudl          = np.loadtxt(file_path, skiprows=1, usecols=(0, 1, 2, 3))
+file_path_1     = "TP_0.01/TP_B2.dat"
+dudl_1          = np.loadtxt(file_path_1, skiprows=1, usecols=(0, 1, 2, 3))
 
-file_path_1   = "TP_0.2/TP_B2.dat"
-dudl_1        = np.loadtxt(file_path_1, skiprows=1, usecols=(0, 1, 2, 3))
-
-file_path_2   = "TP_0.4/TP_B2.dat"
+file_path_2   = "TP_0.02/TP_B2.dat"
 dudl_2        = np.loadtxt(file_path_2, skiprows=1, usecols=(0, 1, 2, 3))
 
-file_path_3   = "TP_0.6/TP_B2.dat"
-dudl_3        = np.loadtxt(file_path_3, skiprows=1, usecols=(0, 1, 2, 3))
+# file_path_3   = "TP_0.03/TP_B2.dat"
+# dudl_3        = np.loadtxt(file_path_3, skiprows=1, usecols=(0, 1, 2, 3))
 
-file_path_4     = "TP_0.10/TP_B2.dat"
-dudl_4          = np.loadtxt(file_path_4, skiprows=1, usecols=(0, 1, 2, 3))
+# file_path_4     = "TP_0.04/TP_B2.dat"
+# dudl_4          = np.loadtxt(file_path_4, skiprows=1, usecols=(0, 1, 2, 3))
 
-file_path_5     = "TP_0.15/TP_B2.dat"
+file_path_5     = "TP_0.05/TP_B2.dat"
 dudl_5          = np.loadtxt(file_path_5, skiprows=1, usecols=(0, 1, 2, 3))
 
-file_path_6     = "TP_0.02/TP_B2.dat"
-dudl_6          = np.loadtxt(file_path_6, skiprows=1, usecols=(0, 1, 2, 3))
+# file_path_6     = "TP_0.02/TP_B2.dat"
+# dudl_6          = np.loadtxt(file_path_6, skiprows=1, usecols=(0, 1, 2, 3))
 
 # lambda_values = dudl[0:,0]
 # du_dlambda_values = dudl[0:,3]
@@ -88,8 +85,8 @@ dudl_6          = np.loadtxt(file_path_6, skiprows=1, usecols=(0, 1, 2, 3))
 # print("Excess Free Energy for Rho = 0.05 (using trapezoidal rule):", area_trapezoid)
 
 # Calculate and print excess free energy for each dataset
-datasets = [dudl_6, dudl, dudl_4, dudl_5, dudl_1, dudl_2, dudl_3]
-rhos = [0.02, 0.05, 0.10, 0.15, 0.2, 0.4, 0.6]
+datasets = [dudl_1,dudl_2, dudl_5]
+rhos = [0.01, 0.02, 0.05]
 
 for i, data in enumerate(datasets):
     area_trapezoid = calculate_excess_free_energy(data)
@@ -105,40 +102,40 @@ with plt.style.context([ 'ieee']):
     ax.spines['left'].set_linewidth(spine_width)   
     ax.spines['right'].set_linewidth(spine_width)  
     
-    dudl_plot_1    = plt.plot(dudl[0:,0], dudl[0:,3],
-                    linestyle= 'solid',
-                    marker='s',
-                    markersize=markersize,
-                    color='cyan',
-                    label='$\\rho$ = 0.05')
+    # dudl_plot_1    = plt.plot(dudl_1[0:,0], dudl_1[0:,3],
+    #                 linestyle= 'solid',
+    #                 marker='s',
+    #                 markersize=markersize,
+    #                 color='cyan',
+    #                 label='$\\rho$ = 0.01')
     
-    dudl_plot_1    = plt.plot(dudl_4[0:,0], dudl_4[0:,3],
+    dudl_plot_2    = plt.plot(dudl_2[0:,0], dudl_2[0:,3],
                     linestyle= 'solid',
                     marker='s',
                     markersize=markersize,
                     color='magenta',
-                    label='$\\rho$ = 0.1')
+                    label='$\\rho$ = 0.02')
     
-    dudl_plot_1 = plt.plot(dudl_1[0:,0], dudl_1[0:,3],
-                    linestyle= 'solid',
-                    marker='s',
-                    markersize=markersize,
-                    color=MIX_color,
-                    label='$\\rho$ = 0.2')
+    # dudl_plot_3 = plt.plot(dudl_3[0:,0], dudl_3[0:,3],
+    #                 linestyle= 'solid',
+    #                 marker='s',
+    #                 markersize=markersize,
+    #                 color=MIX_color,
+    #                 label='$\\rho$ = 0.2')
     
-    dudl_plot_1 = plt.plot(dudl_2[0:,0], dudl_2[0:,3],
-                    linestyle= 'solid',
-                    marker='s',
-                    markersize=markersize,
-                    color='red',
-                    label='$\\rho$ = 0.4')
+    # dudl_plot_4 = plt.plot(dudl_4[0:,0], dudl_4[0:,3],
+    #                 linestyle= 'solid',
+    #                 marker='s',
+    #                 markersize=markersize,
+    #                 color='red',
+    #                 label='$\\rho$ = 0.4')
 
-    dudl_plot_1 = plt.plot(dudl_3[0:,0], dudl_3[0:,3],
+    dudl_plot_5 = plt.plot(dudl_5[0:,0], dudl_5[0:,3],
                     linestyle= 'solid',
                     marker='s',
                     markersize=markersize,
                     color='blue',
-                    label='$\\rho$ = 0.6')
+                    label='$\\rho$ = 0.05')
     
     plt.xlabel(r'$\lambda$', fontsize=label_fontsize)
     plt.ylabel(r'$\langle\frac{du}{d\lambda}\rangle$',fontsize=label_fontsize)
@@ -160,7 +157,7 @@ with plt.style.context([ 'ieee']):
     outline.set_edgecolor('black')
     
     output_dir = os.getcwd()
-    file_name = f"thermodynamic_integration_A2.jpg"
+    file_name = f"thermodynamic_integration.jpg"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')

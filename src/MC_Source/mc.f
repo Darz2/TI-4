@@ -123,8 +123,8 @@ C     Start Of The Simulation
       Call Sample_Radial(1)
       
       Open(22,File="Traject.xyz",Status="Unknown")
-      Open(23,File="Results",Status="Unknown")
-      write(23, '(A)') "         Icycle                Etotal            Dudltot              Virial"
+      ! Open(23,File="Results",Status="Unknown")
+      ! write(23, '(A)') "         Icycle                Etotal            Dudltot              Virial"
 
       Do Icycle=1,Ncycle
 
@@ -144,9 +144,9 @@ C     Start Of The Simulation
             Avt4 = Avt4 + 1.0d0
          Enddo
                 
-         Write(23,'(4e20.10)') 
-     &        Dble(Icycle),
-     &        Etotal,Dudltot,Virial
+   !       Write(23,'(4e20.10)') 
+   !   &        Dble(Icycle),
+   !   &        Etotal,Dudltot,Virial
 
          If(Icycle.Gt.Ninit) Then
             Call Sample_Radial(2)
@@ -169,7 +169,7 @@ C     Start Of The Simulation
       Enddo
 
       Close(22)
-      Close(23)
+      ! Close(23)
 
       Call Sample_Radial(3)
            
