@@ -86,8 +86,9 @@ def error(A_entropy, A_TI):
 
     mae = abs(A_TI - A_entropy)
     ape = abs((A_TI - A_entropy) / A_TI) * 100
+    mbe = (A_TI - A_entropy)
     
-    return f"{ape:.2f}", f"{mae:.4f}"
+    return f"{ape:.2f}", f"{mae:.4f}", f"{mbe:.4f}"
 
 
 bash_code = f'''
@@ -206,8 +207,8 @@ for i, dudl_data in enumerate(datasets):
     
     excess_free_energy_TI                  = calculate_excess_free_energy(dudl_data)
     
-    ape, mae        = error(fa, excess_free_energy_TI)
-    ape_c, mae_c    = error(fac, excess_free_energy_TI)
+    ape, mae, mbe       = error(fa, excess_free_energy_TI)
+    ape_c, mae_c, mbe_c = error(fac, excess_free_energy_TI)
     
     print(f"Excess Free Energy with TI      for {avgb_rho:.2f}: {excess_free_energy_TI:.6f}")
     print(f"Excess Free energy with g       for {avgb_rho:.2f}: {fa:.6f}")
@@ -217,11 +218,11 @@ for i, dudl_data in enumerate(datasets):
     
     if not os.path.isfile(file_properties):  
         with open(file_properties, "w") as file:  
-            file.write("Rho Box Energy/N qs qs_corrected S_excess S_excess_corrected Free_energy/N Free_energy_corrected/N Free_energy_TI/N APE-Error(without-correction) APE_Error(with-Correction) MAE-Error(without-correction) MAE_Error(with-Correction)\n")
-            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c}\n") 
+            file.write("Rho Box Energy/N qs qs_corrected S_excess S_excess_corrected Free_energy/N Free_energy_corrected/N Free_energy_TI/N APE-Error(without-correction) APE_Error(with-Correction) MAE-Error(without-correction) MAE_Error(with-Correction) MBE-Error(without-correction) MBE_Error(with-Correction)\n")
+            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c} {mbe} {mbe_c}\n") 
     else:
         with open(file_properties, "a") as file:  
-            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c}\n")  
+            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c} {mbe} {mbe_c}\n")  
             
     if not os.path.isfile(file_sd):  
         with open(file_sd, "w") as file:  
