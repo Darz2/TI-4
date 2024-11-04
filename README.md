@@ -6,4 +6,4 @@
 
 ### EXCESS FREEE ENERGY
 
-![free_enrgy](PLOT_SCRIPTS/Free_Energy.jpg)
+![free_enrgy](PLOT_SCRIPTS/Free_energy.jpg)
