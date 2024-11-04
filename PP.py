@@ -27,8 +27,11 @@ def sd(array):
     standard_deviation = math.sqrt(variance - squared_mean)
     return standard_deviation
 
-# density     = [0.01, 0.02, 0.03, 0.05]
-density = [0.01]
+# density     = [0.03, 0.04, 0.05]
+# density = [0.06,0.07,0.08,0.09,0.1]
+# density = [0.8, 1.0]
+density = [2.0, 2.5, 3.0]
+
 dir_names   = [f"Rho_{i}" for i in density]
 PP_names    = [f"TP_{i}" for i in density]
 

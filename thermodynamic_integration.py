@@ -13,6 +13,7 @@ import matplotlib.colors as mcolors
 from matplotlib.ticker import ScalarFormatter, MultipleLocator
 from scipy.interpolate import CubicSpline
 from scipy.integrate import trapezoid
+import matplotlib.cm as cm
 
 markers = ['o', 's', '^', 'D', 'h', '*', 'X' , "8"]
 plot_size = (4, 3)
@@ -57,40 +58,29 @@ def calculate_excess_free_energy(dudl_data):
     area_trapezoid = trapezoid(du_dlambda_fine, lambda_fine)
     return area_trapezoid/N
 
-file_path_1     = "TP_0.01/TP_B2.dat"
-dudl_1          = np.loadtxt(file_path_1, skiprows=1, usecols=(0, 1, 2, 3))
+base_path = "./"
+# rho_values = [0.06, 0.07, 0.08, 0.09, 0.1]
+rho_values_1 = np.floor(np.arange(0.01, 0.11, 0.01) * 100) / 100
+rho_values_2 = np.floor(np.arange(0.2, 1.1, 0.2) * 10) / 10
+rho_values_3 = [1.5]
+rho_values   = np.concatenate((rho_values_1, rho_values_2, rho_values_3))
+file_paths   = [f"TP_{rho}/TP_B2.dat" for rho in rho_values]
 
-file_path_2   = "TP_0.02/TP_B2.dat"
-dudl_2        = np.loadtxt(file_path_2, skiprows=1, usecols=(0, 1, 2, 3))
+datasets = []
+for file_path in file_paths:
+    if os.path.exists(file_path):
+        dudl_data = np.loadtxt(file_path, skiprows=1, usecols=(0, 1, 2, 3))
+        datasets.append(dudl_data)
+    else:
+        print(f"File {file_path} not found.")
 
-# file_path_3   = "TP_0.03/TP_B2.dat"
-# dudl_3        = np.loadtxt(file_path_3, skiprows=1, usecols=(0, 1, 2, 3))
-
-# file_path_4     = "TP_0.04/TP_B2.dat"
-# dudl_4          = np.loadtxt(file_path_4, skiprows=1, usecols=(0, 1, 2, 3))
-
-file_path_5     = "TP_0.05/TP_B2.dat"
-dudl_5          = np.loadtxt(file_path_5, skiprows=1, usecols=(0, 1, 2, 3))
-
-# file_path_6     = "TP_0.02/TP_B2.dat"
-# dudl_6          = np.loadtxt(file_path_6, skiprows=1, usecols=(0, 1, 2, 3))
-
-# lambda_values = dudl[0:,0]
-# du_dlambda_values = dudl[0:,3]
-# spline = CubicSpline(lambda_values, du_dlambda_values)
-# lambda_fine = np.linspace(0, 1, 1000)
-# du_dlambda_fine = spline(lambda_fine)
-# area_trapezoid = trapezoid(du_dlambda_fine, lambda_fine)
-# # area_trapezoid = trapezoid(du_dlambda_values, lambda_values)
-# print("Excess Free Energy for Rho = 0.05 (using trapezoidal rule):", area_trapezoid)
-
-# Calculate and print excess free energy for each dataset
-datasets = [dudl_1,dudl_2, dudl_5]
-rhos = [0.01, 0.02, 0.05]
-
-for i, data in enumerate(datasets):
-    area_trapezoid = calculate_excess_free_energy(data)
-    print(f"Excess Free Energy for Rho = {rhos[i]} (using trapezoidal rule):", area_trapezoid)
+output_file_path = os.path.join(os.getcwd(), "thermodynamic_integration.dat")
+with open(output_file_path, "w") as file:
+    for i, dudl_data in enumerate(datasets):
+        excess_energy = calculate_excess_free_energy(dudl_data)
+        result_line = f"Excess Free Energy for Rho = {rho_values[i]:.2f}: {excess_energy:.6f}"
+        print(result_line)
+        file.write(f"{rho_values[i]:.2f} {excess_energy:.6f}\n")
 
 with plt.style.context([ 'ieee']):
     plt.rcParams['font.family'] = graphic_font
@@ -102,40 +92,16 @@ with plt.style.context([ 'ieee']):
     ax.spines['left'].set_linewidth(spine_width)   
     ax.spines['right'].set_linewidth(spine_width)  
     
-    # dudl_plot_1    = plt.plot(dudl_1[0:,0], dudl_1[0:,3],
-    #                 linestyle= 'solid',
-    #                 marker='s',
-    #                 markersize=markersize,
-    #                 color='cyan',
-    #                 label='$\\rho$ = 0.01')
+    colormap = cm.get_cmap('tab10', len(datasets))  # Use a color map for more colors
+    labels = [f'$\\rho$ = {rho:.2f}' for rho in rho_values]
     
-    dudl_plot_2    = plt.plot(dudl_2[0:,0], dudl_2[0:,3],
-                    linestyle= 'solid',
-                    marker='s',
-                    markersize=markersize,
-                    color='magenta',
-                    label='$\\rho$ = 0.02')
-    
-    # dudl_plot_3 = plt.plot(dudl_3[0:,0], dudl_3[0:,3],
-    #                 linestyle= 'solid',
-    #                 marker='s',
-    #                 markersize=markersize,
-    #                 color=MIX_color,
-    #                 label='$\\rho$ = 0.2')
-    
-    # dudl_plot_4 = plt.plot(dudl_4[0:,0], dudl_4[0:,3],
-    #                 linestyle= 'solid',
-    #                 marker='s',
-    #                 markersize=markersize,
-    #                 color='red',
-    #                 label='$\\rho$ = 0.4')
-
-    dudl_plot_5 = plt.plot(dudl_5[0:,0], dudl_5[0:,3],
-                    linestyle= 'solid',
-                    marker='s',
-                    markersize=markersize,
-                    color='blue',
-                    label='$\\rho$ = 0.05')
+    for i, dudl_data in enumerate(datasets):
+        ax.plot(dudl_data[:, 0], dudl_data[:, 3],
+                linestyle='solid',
+                marker='s',
+                markersize=6,  # Replace with markersize if defined
+                color=colormap(i),
+                label=labels[i])
     
     plt.xlabel(r'$\lambda$', fontsize=label_fontsize)
     plt.ylabel(r'$\langle\frac{du}{d\lambda}\rangle$',fontsize=label_fontsize)

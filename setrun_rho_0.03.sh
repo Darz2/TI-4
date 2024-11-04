@@ -38,12 +38,12 @@ do
             sed -i "s/A_VAL/$Alpha/g"           run
             sed -i "s/R_VAL/$Rcut/g"            run
 
-            if (( $(echo "${L} > 0.9" | bc -l) )); then
-                sed -i "s/D_VAL/0.4/g" run
-            elif (( $(echo "${L} > 0.7" | bc -l) )); then
-                sed -i "s/D_VAL/0.7/g" run
+            if (( $(awk 'BEGIN {print ('"$L"' > 0.9)}') )); then
+                sed -i "s/D_VAL/7/g" run
+            elif (( $(awk 'BEGIN {print ('"$L"' > 0.7)}') )); then
+                sed -i "s/D_VAL/7/g" run
             else
-                sed -i "s/D_VAL/1/g" run
+                sed -i "s/D_VAL/7/g" run
             fi
 
             mv run                              ${fold}
@@ -67,4 +67,4 @@ done
 
 
 wait
-./setsubmit_rho_0.03.sh
+# ./setsubmit_rho_0.03.sh

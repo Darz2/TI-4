@@ -4,6 +4,11 @@ import os
 import math
 import subprocess
 import numpy as np
+from scipy.interpolate import CubicSpline
+from scipy.integrate import trapezoid
+
+def format_value(value):
+    return f"{value:.6f}"
 
 def avg(array):
     sum_of_array = sum(array)
@@ -54,7 +59,36 @@ def excess_free_energy(rho, T, U, N, Q, sigma_energy, sigma_q):
     per_particle_free_energy = A / N
     sigma_per_particle = sigma_A / N
     
-    return per_particle_free_energy, sigma_per_particle
+    return s_excess, sigma_s_excess, per_particle_free_energy, sigma_per_particle
+
+def calculate_excess_free_energy(dudl_data):
+    lambda_values = dudl_data[:, 0]
+    du_dlambda_values = dudl_data[:, 3]
+    spline = CubicSpline(lambda_values, du_dlambda_values)
+    lambda_fine = np.linspace(0, 1, 1000)
+    du_dlambda_fine = spline(lambda_fine)
+    area_trapezoid = trapezoid(du_dlambda_fine, lambda_fine)
+    return area_trapezoid/N
+
+def error(A_entropy, A_TI):
+    """
+    Calculate both the Absolute Percentage Error (APE) and Mean Absolute Error (MAE) for a single data point.
+
+    Parameters:
+    A_entropy (float): The excess free energy calculated from A = U -TS
+    A_TI (float): The excess free energy calculated from Thermodynamic Integration
+
+    Returns:
+    tuple: The APE formatted to two decimal places and MAE formatted to four decimal places.
+    """
+    if A_TI == 0:
+        raise ValueError("The excess free energy calculated from Thermodynamic Integration cannot be zero.")
+
+    mae = abs(A_TI - A_entropy)
+    ape = abs((A_TI - A_entropy) / A_TI) * 100
+    
+    return f"{ape:.2f}", f"{mae:.4f}"
+
 
 bash_code = f'''
 DIR_NAME="EXCESS_ENTROPY"
@@ -70,14 +104,30 @@ subprocess.call(bash_code, shell=True)
 file_properties = f"EXCESS_ENTROPY/TP_B2.dat"
 file_sd         = f"EXCESS_ENTROPY/SD_TP_B2.dat"
 
-density     = [0.01, 0.02, 0.05]
-dir_names   = [f"Rho_{i}" for i in density]
-block           = 5
-sim             = 2
-N               = 100
-T               = 4
+density_1     = np.floor(np.arange(0.01, 0.11, 0.01) * 100) / 100
+density_2     = np.floor(np.arange(0.2, 1.1, 0.2) * 10) / 10
+density_3     = [1.5]
+density       = np.concatenate((density_1, density_2, density_3))
+dir_names     = [f"Rho_{i}" for i in density]
+block         = 5
+sim           = 2
+N             = 100
+T             = 4
+file_paths    = [f"TP_{rho}/TP_B2.dat" for rho in density]
 
-for D, r in zip(dir_names,density):
+datasets = []
+for file_path in file_paths:
+    if os.path.exists(file_path):
+        dudl_data = np.loadtxt(file_path, skiprows=1, usecols=(0, 1, 2, 3))
+        datasets.append(dudl_data)
+    else:
+        print(f"File {file_path} not found.")
+
+
+for i, dudl_data in enumerate(datasets):
+    
+    D = dir_names[i]
+    r = density[i]
     
     rho_b    = []
     energy_b = []
@@ -151,24 +201,32 @@ for D, r in zip(dir_names,density):
     sd_qgr      = round(sd(qgr_b),6)
     sd_qgrc     = round(sd(qgrc_b),6)
     
-    fa, sd_fa   = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgr, sd_energy, sd_qgr)
-    fac, sd_fac = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgrc, sd_energy, sd_qgrc)
+    s_excess, sd_s_excess, fa, sd_fa       = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgr, sd_energy, sd_qgr)
+    s_excess_c, sd_s_excess_c, fac, sd_fac = excess_free_energy(avgb_rho, T, avgb_energy, N, avgb_qgrc, sd_energy, sd_qgrc)
     
-    print(f"Excess free enrgy without correction {avgb_rho} is the {fa}")
-    print(f"Excess free enrgy with correction {avgb_rho} is the {fac}")
+    excess_free_energy_TI                  = calculate_excess_free_energy(dudl_data)
+    
+    ape, mae        = error(fa, excess_free_energy_TI)
+    ape_c, mae_c    = error(fac, excess_free_energy_TI)
+    
+    print(f"Excess Free Energy with TI      for {avgb_rho:.2f}: {excess_free_energy_TI:.6f}")
+    print(f"Excess Free energy with g       for {avgb_rho:.2f}: {fa:.6f}")
+    print(f"Error without correction        for {avgb_rho:.2f}: {mae}")
+    print(f"Excess Free enregy with g_infty for {avgb_rho:.2f}: {fac:.6f}")
+    print(f"Error with correction           for {avgb_rho:.2f}: {mae_c}")
     
     if not os.path.isfile(file_properties):  
         with open(file_properties, "w") as file:  
-            file.write("Box rho energy qs qs_van_der_vegt Free_energy Free_energy_corrected Acc.prob\n")
-            file.write(f"{avgb_box} {avgb_rho} {avgb_energy} {avgb_qgr} {avgb_qgrc} {fa} {fac} {prob_b}\n") 
+            file.write("Rho Box Energy/N qs qs_corrected S_excess S_excess_corrected Free_energy/N Free_energy_corrected/N Free_energy_TI/N APE-Error(without-correction) APE_Error(with-Correction) MAE-Error(without-correction) MAE_Error(with-Correction)\n")
+            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c}\n") 
     else:
         with open(file_properties, "a") as file:  
-            file.write(f"{avgb_box} {avgb_rho} {avgb_energy} {avgb_qgr} {avgb_qgrc} {fa} {fac} {prob_b}\n")  
+            file.write(f"{format_value(avgb_rho)} {format_value(avgb_box)} {format_value(avgb_energy/N)} {format_value(avgb_qgr)} {format_value(avgb_qgrc)} {format_value(s_excess)} {format_value(s_excess_c)} {format_value(fa)} {format_value(fac)} {format_value(excess_free_energy_TI)} {ape} {ape_c} {mae} {mae_c}\n")  
             
     if not os.path.isfile(file_sd):  
         with open(file_sd, "w") as file:  
-            file.write("rho energy qs qs_van_der_vegt free_energy free_energy_with_coreection\n")
-            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc} {sd_fa} {sd_fac}\n") 
+            file.write("Rho Energy/N qs qs_corrected S_excess S_excess_corrected Free_energy Free_energy_coreected\n")
+            file.write(f"{format_value(avgb_rho)} {format_value(sd_energy/N)} {format_value(sd_qgr)} {format_value(sd_qgrc)} {format_value(sd_s_excess)} {format_value(sd_s_excess_c)} {format_value(sd_fa)} {format_value(sd_fac)}\n")
     else:
         with open(file_sd, "a") as file:  
-            file.write(f"{avgb_rho} {sd_energy} {sd_qgr} {sd_qgrc} {sd_fa} {sd_fac}\n")
+            file.write(f"{format_value(avgb_rho)} {format_value(sd_energy/N)} {format_value(sd_qgr)} {format_value(sd_qgrc)} {format_value(sd_s_excess)} {format_value(sd_s_excess_c)} {format_value(sd_fa)} {format_value(sd_fac)}\n")

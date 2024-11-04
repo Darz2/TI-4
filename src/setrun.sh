@@ -39,11 +39,11 @@ do
             sed -i "s/R_VAL/$Rcut/g"            run
 
             if (( $(awk 'BEGIN {print ('"$L"' > 0.9)}') )); then
-                sed -i "s/D_VAL/10/g" run
+                sed -i "s/D_VAL/L2_VAL/g" run
             elif (( $(awk 'BEGIN {print ('"$L"' > 0.7)}') )); then
-                sed -i "s/D_VAL/10/g" run
+                sed -i "s/D_VAL/L2_VAL/g" run
             else
-                sed -i "s/D_VAL/10/g" run
+                sed -i "s/D_VAL/L2_VAL/g" run
             fi
 
             mv run                              ${fold}
@@ -67,4 +67,4 @@ done
 
 
 wait
-./SUBMIT
+# ./SUBMIT

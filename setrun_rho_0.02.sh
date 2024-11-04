@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=setrun_rho_0.02
+#SBATCH --job-name=setrun_rho_0.01
 #SBATCH -p serial
 #SBATCH -n 1
 #SBATCH --mem-per-cpu=2G
@@ -38,9 +38,9 @@ do
             sed -i "s/A_VAL/$Alpha/g"           run
             sed -i "s/R_VAL/$Rcut/g"            run
 
-            if (( $(echo "${L} > 0.9" | bc -l) )); then
+            if (( $(awk 'BEGIN {print ('"$L"' > 0.9)}') )); then
                 sed -i "s/D_VAL/8/g" run
-            elif (( $(echo "${L} > 0.7" | bc -l) )); then
+            elif (( $(awk 'BEGIN {print ('"$L"' > 0.7)}') )); then
                 sed -i "s/D_VAL/8/g" run
             else
                 sed -i "s/D_VAL/8/g" run
@@ -67,4 +67,4 @@ done
 
 
 wait
-./setsubmit_rho_0.02.sh
+# ./setsubmit_rho_0.02.sh
