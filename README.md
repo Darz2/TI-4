@@ -3,3 +3,7 @@
 ### For $T$ = 4; $\alpha = 1 $
 ### Rcut = 2 
 ### Maxpart = 1000 ; Maxbin = 2000 [RDF]
+
+### EXCESS FREEE ENERGY
+
+![free_enrgy](PLOT_SCRIPTS/Free_Energy.jpg)
