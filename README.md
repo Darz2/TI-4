@@ -6,4 +6,5 @@
 
 ### EXCESS ENTROPY $(S^{\mathrm{ex}})$
 
-![free_enrgy](PLOT_SCRIPTS/S_excess.jpg)
+![Excess Entropy](PLOT_SCRIPTS/S_excess.jpg)
+![Excess Entropy-Error](PLOT_SCRIPTS/S_excess_APE.jpg)
