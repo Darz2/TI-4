@@ -4,6 +4,6 @@
 ### Rcut = 2 
 ### Maxpart = 1000 ; Maxbin = 2000 [RDF]
 
-### EXCESS FREEE ENERGY
+### EXCESS ENTROPY $(S^{\mathrm{ex}})$
 
-![free_enrgy](PLOT_SCRIPTS/Free_energy.jpg)
+![free_enrgy](PLOT_SCRIPTS/Excess_entropy.jpg)
