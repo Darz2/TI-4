@@ -1,0 +1,12 @@
+#!/bin/tcsh
+
+cat > Input <<endofdata1
+Ncycle   Ninit   Npart   Linit   Temp  Lambda
+1000000   10000   500    .true.   4   L_VAL
+Deltax   Box
+D_VAL    Box_VAL
+Alpha    Rcut
+A_VAL    R_VAL 
+endofdata1
+wait
+time ./a.out
