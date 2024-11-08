@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
-########################### import the packages ############################
+### Importing the required libraries ###
+
 import sys
 import os
 import math
 import numpy as np
 import scienceplots
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.ticker import ScalarFormatter, MultipleLocator
+
+### Plot parameters ###
 
 markers = ['o', 's', '^', 'D', 'h', '*', 'X' , "8"]
 plot_size = (4, 3)
@@ -46,30 +48,35 @@ break_threshold = 10 # for NIST data
 plt.rcParams['font.serif'] = graphic_font
 plt.rcParams['mathtext.fontset'] = math_font
 
-file_path_TP   = '../EXCESS_ENTROPY/TP_B2.dat'
-TP             = np.loadtxt(file_path_TP, skiprows=1)
 
-file_path_SD   = '../EXCESS_ENTROPY/SD_TP_B2.dat'
-SD             = np.loadtxt(file_path_SD, skiprows=1)
+### Loading plot data ###
 
 '''
+
 EXCESS_ENTROPY/TP_B2.dat
 
 Absolute Percentager Error (APE) 
 
-Free Energy APE incides                                 = 10
-Free Energy APE (with corrected g) incides              = 11
+S_excess APE incides                        = 7
+S_excess APE (with corrected g) incides     = 8
 
 Mean Absolute Error (MAE)  
 
-Free Energy APE incides                                 = 12
-Free Energy APE (with corrected g) incides              = 13
+S_excess MAE incides                        = 9
+S_excess MAE (with corrected g) incides     = 10
 
 Mean Bias Error (MBE)  
 
-Free Energy APE incides                                 = 14
-Free Energy APE (with corrected g) incides              = 15
+S_excess MBE incides                        = 11
+S_excess MBE (with corrected g) incides     = 12
+
 '''
+
+file_path_ERROR     = '../EXCESS_ENTROPY/ERROR_TP_B2.dat'
+TP                  = np.loadtxt(file_path_ERROR, skiprows=1)
+
+
+### Plotting the excess Entropy ###
 
 with plt.style.context([ 'ieee']):
     plt.rcParams['font.family'] = graphic_font
@@ -81,7 +88,7 @@ with plt.style.context([ 'ieee']):
     ax.spines['left'].set_linewidth(spine_width)   
     ax.spines['right'].set_linewidth(spine_width) 
     
-    Plot_APE  = plt.plot(TP[0:,0], TP[0:,10],
+    Plot_APE  = plt.plot(TP[0:,0], TP[0:,7],
                 marker = 'o',
                 markersize=markersize,
                 markerfacecolor=TI_face_color,
@@ -89,9 +96,9 @@ with plt.style.context([ 'ieee']):
                 markeredgewidth=markeredgewidth,
                 linestyle='none',
                 color=TI_color,
-                label='$g(r)$')
+                label='$q_{s}(r)$')
     
-    Plot_APE  = plt.plot(TP[0:,0], TP[0:,11],
+    Plot_APE  = plt.plot(TP[0:,0], TP[0:,8],
                 marker = 'D',
                 markersize=markersize,
                 markerfacecolor=CO2_face_color,
@@ -99,12 +106,12 @@ with plt.style.context([ 'ieee']):
                 markeredgewidth=markeredgewidth,
                 linestyle='none',
                 color=CO2_color,
-                label='$g^{\infty}(r)$')
+                label='$q_{s}^{\infty}(r)$')
     
     ax.axhline(y=0, color='k', linestyle='solid', linewidth=linewidth)
     
     plt.xlabel(r'$\rho$', fontsize=label_fontsize)
-    plt.ylabel(r'$| \frac{ A^{\mathrm{ex}}_{\mathrm{TI}} - A^{\mathrm{ex}}_{S^{\mathrm{ex}}} }{ A^{\mathrm{ex}}_{\mathrm{TI}} } | \times 100\,\% $',fontsize=label_fontsize)
+    plt.ylabel(r'$| \frac{ S^{\mathrm{ex}}_{\mathrm{TI}} - S^{\mathrm{ex}} }{ S^{\mathrm{ex}}_{\mathrm{TI}} } | \times 100\,\% $',fontsize=label_fontsize)
     
     plt.ylim(-4, 39)
     # plt.xlim(-0.1, 1.1)
@@ -128,13 +135,13 @@ with plt.style.context([ 'ieee']):
     outline.set_edgecolor('black')
     
     output_dir = os.getcwd()
-    file_name = f"Free_energy_APE.jpg"
+    file_name = f"S_excess_APE.jpg"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
     
-    # output_dir = os.getcwd()
-    # file_name = f"Free_energy.pdf"
-    # file_path = os.path.join(output_dir, file_name)
-    # fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
-    # fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
+    output_dir = os.getcwd()
+    file_name = f"S_excess_APE.pdf"
+    file_path = os.path.join(output_dir, file_name)
+    fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
+    fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
