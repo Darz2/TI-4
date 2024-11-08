@@ -123,7 +123,7 @@ file_errors     = f"EXCESS_ENTROPY/ERROR_TP_B2.dat"
 
 ### Main Variables ###
 
-density_1     = np.floor(np.arange(0.01, 0.11, 0.01) * 100) / 100
+density_1     = np.floor(np.linspace(0.01, 0.1, 10) * 100) / 100
 density_2     = np.floor(np.arange(0.2, 1.0, 0.2) * 10) / 10
 density       = np.concatenate((density_1, density_2))
 dir_names     = [f"Rho_{i}" for i in density]
