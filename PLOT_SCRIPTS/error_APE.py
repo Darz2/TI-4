@@ -108,7 +108,7 @@ with plt.style.context([ 'ieee']):
                 color=CO2_color,
                 label='$q_{s}^{\infty}(r)$')
     
-    ax.axhline(y=0, color='k', linestyle='solid', linewidth=linewidth)
+    ax.axhline(y=0, color='k', linestyle='dashed', linewidth=linewidth)
     
     plt.xlabel(r'$\rho$', fontsize=label_fontsize)
     plt.ylabel(r'$| \frac{ S^{\mathrm{ex}}_{\mathrm{TI}} - S^{\mathrm{ex}} }{ S^{\mathrm{ex}}_{\mathrm{TI}} } | \times 100\,\% $',fontsize=label_fontsize)
@@ -120,8 +120,8 @@ with plt.style.context([ 'ieee']):
     
     # ax.xaxis.set_major_locator(MultipleLocator(0.2))
     # ax.xaxis.set_minor_locator(MultipleLocator(0.1))
-    # ax.yaxis.set_major_locator(MultipleLocator(1))
-    # ax.yaxis.set_minor_locator(MultipleLocator(0.5))
+    ax.yaxis.set_major_locator(MultipleLocator(10))
+    ax.yaxis.set_minor_locator(MultipleLocator(5))
     
     ax.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
