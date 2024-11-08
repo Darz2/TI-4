@@ -9,5 +9,5 @@
 ![Excess Entropy](PLOT_SCRIPTS/S_excess.jpg)
 ![Excess Entropy-Error](PLOT_SCRIPTS/S_excess_APE.jpg)
 ### $N$ = 500
-![Excess Entropy](N_500/TI_4_500/PLOT_SCRIPTS/S_excess.jpg)
-![Excess Entropy-Error](N_500/TI_4_500/PLOT_SCRIPTS/S_excess_APE.jpg)
+![Excess Entropy](N_500/PLOT_SCRIPTS/S_excess.jpg)
+![Excess Entropy-Error](N_500/PLOT_SCRIPTS/S_excess_APE.jpg)
