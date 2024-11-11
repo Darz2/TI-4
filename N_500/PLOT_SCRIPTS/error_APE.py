@@ -114,7 +114,7 @@ with plt.style.context([ 'ieee']):
     plt.ylabel(r'$| \frac{ S^{\mathrm{ex}}_{\mathrm{TI}} - S^{\mathrm{ex}} }{ S^{\mathrm{ex}}_{\mathrm{TI}} } | \times 100\,\% $',fontsize=label_fontsize)
     
     plt.ylim(-4, 39)
-    # plt.xlim(-0.1, 1.1)
+    plt.xlim(0.008, 1.4)
     
     ax.set_xscale('log') 
     

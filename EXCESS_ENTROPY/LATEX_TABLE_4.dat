@@ -1,0 +1,27 @@
+%-------TABLE-1------- 
+%---------T=4------- 
+%---------N=100------- 
+%---------rc=2------- 
+\begin{table}[tbh!]
+\caption{Computed excess entropy ($S^{\mathrm{ex}}$) from Thermodynamic Integration (TI) and from Eq.~\ref{eq:excess},             with the finite-size correction for $g(r)$ as proposed by Ganguly and van der Vegt \cite{ganguly2013convergence}             and without finite-size correction for $g(r)$, for $T= 4$, $r_c = 2$, and $N = 100$}
+\label{TAB:1-T=4}
+\centering
+\begin{tabular}{P{1cm} P{1.5cm} P{1.5cm} P{2.25cm} P{2.25cm} P{2cm} P{2cm}} 
+\toprule
+${ \rho }$ & {$ U/N $} & {$ S^{\mathrm{ex}}_{\mathrm{TI}}/N $} & {$ S^{\mathrm{ex}}(q_s^{\infty}(r))/N $} & {$ S^{\mathrm{ex}}(q_s(r))/N $} &             \parbox{2cm}{APE \ $S^{\mathrm{ex}}(q_s^{\infty}(r))$} & \parbox{2cm}{APE \ $S^{\mathrm{ex}}(q_s(r))$} \\ \midrule 
+ 0.02                         & -0.0782                         & -0.0290                         & -0.0290                         & -0.0301                         & 0.07                         & 3.76 \\ 
+ 0.03                         & -0.1170                         & -0.0436                         & -0.0434                         & -0.0444                         & 0.36                         & 1.84 \\ 
+ 0.04                         & -0.1558                         & -0.0583                         & -0.0578                         & -0.0587                         & 0.80                         & 0.67 \\ 
+ 0.05                         & -0.1944                         & -0.0731                         & -0.0722                         & -0.0730                         & 1.23                         & 0.19 \\ 
+ 0.06                         & -0.2328                         & -0.0880                         & -0.0865                         & -0.0872                         & 1.67                         & 0.91 \\ 
+ 0.07                         & -0.2712                         & -0.1030                         & -0.1009                         & -0.1014                         & 2.09                         & 1.53 \\ 
+ 0.08                         & -0.3093                         & -0.1181                         & -0.1151                         & -0.1156                         & 2.51                         & 2.10 \\ 
+ 0.09                         & -0.3473                         & -0.1333                         & -0.1294                         & -0.1298                         & 2.94                         & 2.63 \\ 
+ 0.10                         & -0.3852                         & -0.1486                         & -0.1436                         & -0.1440                         & 3.37                         & 3.14 \\ 
+ 0.20                         & -0.7561                         & -0.3083                         & -0.2852                         & -0.2850                         & 7.49                         & 7.55 \\ 
+ 0.40                         & -1.4341                         & -0.6701                         & -0.5694                         & -0.5691                         & 15.02                         & 15.07 \\ 
+ 0.60                         & -1.9117                         & -1.0982                         & -0.8707                         & -0.8712                         & 20.71                         & 20.67 \\ 
+ 0.80                         & -1.8920                         & -1.5865                         & -1.2153                         & -1.2168                         & 23.40                         & 23.30 \\ 
+\bottomrule 
+\end{tabular} 
+\end{table}

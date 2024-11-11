@@ -125,7 +125,7 @@ with plt.style.context([ 'ieee']):
     plt.ylabel(r'$S^{\mathrm{ex}}/N$',fontsize=label_fontsize)
     
     plt.ylim(-1.75, 0.25)
-    plt.xlim(0.004, 1.4)
+    plt.xlim(0.008, 1.4)
     
     ax.set_xscale('log') 
     
