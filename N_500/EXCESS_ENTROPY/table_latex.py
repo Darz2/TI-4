@@ -1,19 +1,22 @@
 #!/usr/bin/env python
 
+TABLE_NO = 2
 T = 4
 N = 500
 rc = 2
+alpha = 1.0
 
 table_preamble = [
-        '%-------TABLE-2------- \n'
+        f'%-------TABLE-{TABLE_NO}------- \n'
         f'%---------T={T}------- \n'
         f'%---------N={N}------- \n'
         f'%---------rc={rc}------- \n'
+        f'%---------alpha={alpha}------- \n'
         '\\begin{table}[tbh!]\n',
         f'\caption{{Computed excess entropy ($S^{{\mathrm{{ex}}}}$) from Thermodynamic Integration (TI) and from Eq.~\\ref{{eq:excess}}, \
             with the finite-size correction for $g(r)$ as proposed by Ganguly and van der Vegt \cite{{ganguly2013convergence}} \
             and without finite-size correction for $g(r)$, for $T= {T}$, $r_c = {rc}$, and $N = {N}$}}\n',
-        f'\label{{TAB:1-T={T}}}\n',
+        f'\label{{TAB:1,RC={rc};T={T};N={N}}}\n',
         '\centering\n',
         '\\begin{tabular}{P{1cm} P{1.5cm} P{1.5cm} P{2.25cm} P{2.25cm} P{2cm} P{2cm}} \n',
         '\\toprule\n',
@@ -47,7 +50,7 @@ with open(TP_filename, 'r') as MC_TP, \
         
         output_file.writelines(table_preamble)
 
-        for TP_line, SD_TP_line, ERROR_TP_line in zip(TP_line[2:], SD_TP_line[2:], ERROR_TP_line[2:]):
+        for TP_line, SD_TP_line, ERROR_TP_line in zip(TP_line[1:], SD_TP_line[1:], ERROR_TP_line[1:]):
             
             array_one = TP_line.split()
             array_two = SD_TP_line.split()

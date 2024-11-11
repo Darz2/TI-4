@@ -2,13 +2,15 @@
 %---------T=4------- 
 %---------N=100------- 
 %---------rc=2------- 
+%---------alpha=1.0------- 
 \begin{table}[tbh!]
 \caption{Computed excess entropy ($S^{\mathrm{ex}}$) from Thermodynamic Integration (TI) and from Eq.~\ref{eq:excess},             with the finite-size correction for $g(r)$ as proposed by Ganguly and van der Vegt \cite{ganguly2013convergence}             and without finite-size correction for $g(r)$, for $T= 4$, $r_c = 2$, and $N = 100$}
-\label{TAB:1-T=4}
+\label{TAB:1,RC=2;T=4;N=100}
 \centering
 \begin{tabular}{P{1cm} P{1.5cm} P{1.5cm} P{2.25cm} P{2.25cm} P{2cm} P{2cm}} 
 \toprule
 ${ \rho }$ & {$ U/N $} & {$ S^{\mathrm{ex}}_{\mathrm{TI}}/N $} & {$ S^{\mathrm{ex}}(q_s^{\infty}(r))/N $} & {$ S^{\mathrm{ex}}(q_s(r))/N $} &             \parbox{2cm}{APE \ $S^{\mathrm{ex}}(q_s^{\infty}(r))$} & \parbox{2cm}{APE \ $S^{\mathrm{ex}}(q_s(r))$} \\ \midrule 
+ 0.01                         & -0.0391                         & -0.0144                         & -0.0145                         & -0.0157                         & 0.54                         & 8.81 \\ 
  0.02                         & -0.0782                         & -0.0290                         & -0.0290                         & -0.0301                         & 0.07                         & 3.76 \\ 
  0.03                         & -0.1170                         & -0.0436                         & -0.0434                         & -0.0444                         & 0.36                         & 1.84 \\ 
  0.04                         & -0.1558                         & -0.0583                         & -0.0578                         & -0.0587                         & 0.80                         & 0.67 \\ 
