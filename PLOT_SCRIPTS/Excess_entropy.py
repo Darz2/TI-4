@@ -95,7 +95,7 @@ with plt.style.context([ 'ieee']):
                     capsize=capsize,
                     capthick=capsize,
                     color=CO2_color,
-                    label='$q(r)$')
+                    label='$S^{\mathrm{ex}}(g(r))/N$')
     
     Plot_SEX_C  = plt.errorbar(TP[0:,0], TP[0:,6],yerr=SD[0:,5],
                     fmt='s',
@@ -108,7 +108,7 @@ with plt.style.context([ 'ieee']):
                     capsize=capsize,
                     capthick=capsize,
                     color=MIX_color,
-                    label='$q_{s}^{\infty}(r)$')
+                    label='$S^{\mathrm{ex}}(g^{\infty}(r))/N$')
     
     Plot_SEX_TI = plt.plot(TP[0:,0], TP[0:,7],
                     marker = 'D',
@@ -119,7 +119,7 @@ with plt.style.context([ 'ieee']):
                     linestyle='solid',
                     linewidth= linewidth,
                     color=TI_color,
-                    label='$\mathrm{TI}$')
+                    label='$S^{\mathrm{ex}}(\mathrm{TI})/N$')
     
     plt.xlabel(r'$\rho$', fontsize=label_fontsize)
     plt.ylabel(r'$S^{\mathrm{ex}}/N$',fontsize=label_fontsize)
@@ -152,7 +152,7 @@ with plt.style.context([ 'ieee']):
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
     
     output_dir = os.getcwd()
-    file_name = f"S_excess.pdf"
+    file_name = "Figure5a.pdf"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')

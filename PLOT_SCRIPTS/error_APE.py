@@ -96,7 +96,7 @@ with plt.style.context([ 'ieee']):
                 markeredgewidth=markeredgewidth,
                 linestyle='none',
                 color=TI_color,
-                label='$q_{s}(r)$')
+                label='$S^{\mathrm{ex}}(g(r))/N$')
     
     Plot_APE  = plt.plot(TP[0:,0], TP[0:,8],
                 marker = 'D',
@@ -106,7 +106,7 @@ with plt.style.context([ 'ieee']):
                 markeredgewidth=markeredgewidth,
                 linestyle='none',
                 color=CO2_color,
-                label='$q_{s}^{\infty}(r)$')
+                label='$S^{\mathrm{ex}}(g^{\infty}(r))/N$')
     
     ax.axhline(y=0, color='k', linestyle='dashed', linewidth=linewidth)
     
@@ -141,7 +141,7 @@ with plt.style.context([ 'ieee']):
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
     
     output_dir = os.getcwd()
-    file_name = f"S_excess_APE.pdf"
+    file_name = "Figure5b.pdf"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
