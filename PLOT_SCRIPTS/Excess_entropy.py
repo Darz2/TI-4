@@ -119,7 +119,7 @@ with plt.style.context([ 'ieee']):
                     linestyle='solid',
                     linewidth= linewidth,
                     color=TI_color,
-                    label='$S^{\mathrm{ex}}(\mathrm{TI})/N$')
+                    label='$S^{\mathrm{ex}}_{\mathrm{TI}}/N$')
     
     plt.xlabel(r'$\rho$', fontsize=label_fontsize)
     plt.ylabel(r'$S^{\mathrm{ex}}/N$',fontsize=label_fontsize)
