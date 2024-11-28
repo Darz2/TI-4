@@ -95,7 +95,7 @@ with plt.style.context([ 'ieee']):
                     capsize=capsize,
                     capthick=capsize,
                     color=CO2_color,
-                    label='$S^{\mathrm{ex}}(g(r))/N$')
+                    label='$S^{\mathrm{ex}}~(g(r))/N$')
     
     Plot_SEX_C  = plt.errorbar(TP[0:,0], TP[0:,6],yerr=SD[0:,5],
                     fmt='s',
@@ -108,7 +108,7 @@ with plt.style.context([ 'ieee']):
                     capsize=capsize,
                     capthick=capsize,
                     color=MIX_color,
-                    label='$S^{\mathrm{ex}}(g^{\infty}(r))/N$')
+                    label='$S^{\mathrm{ex}}~(g^{\infty}(r))/N$')
     
     Plot_SEX_TI = plt.plot(TP[0:,0], TP[0:,7],
                     marker = 'D',
@@ -152,7 +152,7 @@ with plt.style.context([ 'ieee']):
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
     
     output_dir = os.getcwd()
-    file_name = "Figure5c.pdf"
+    file_name = "Figure6c.pdf"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
