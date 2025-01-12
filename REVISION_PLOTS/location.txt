@@ -1,0 +1,3 @@
+location =  ~/A4/TI-4/Rho_0.01/L_1.00/block_1/sim_1
+
+loaction1 = ~/A4/TI-4/N_500/Rho_0.01/L_1.00/block_1/sim_1
