@@ -73,7 +73,7 @@ with plt.style.context([ 'ieee']):
     plt.xlabel(r'$r$', fontsize=label_fontsize)
     plt.ylabel(r'RDF',fontsize=label_fontsize)
     
-    plt.xlim(-0.25, 6)
+    plt.xlim(-0.25, 5)
     plt.ylim(-0.05, 1.39)
     ax.xaxis.set_major_locator(MultipleLocator(1))
     ax.xaxis.set_minor_locator(MultipleLocator(0.5))
@@ -108,7 +108,7 @@ with plt.style.context([ 'ieee']):
     ax_inset.axhline(1, color="black", linewidth=0.5, linestyle='--')
     
     # Zoom-in region
-    x_min, x_max = 0.9, 2.3  
+    x_min, x_max = 0.9, 2.05  
     y_min, y_max = 0.95, 1.35
     ax_inset.set_xlim(x_min, x_max)
     ax_inset.set_ylim(y_min, y_max)
